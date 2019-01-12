@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/khadiajakarkhanawala/push-notification-go/fcm"
+	"github.com/khadijakarkhanawala/push-notification-go/fcm"
 	"github.com/sideshow/apns2"
 
-	"github.com/khadiajakarkhanawala/push-notification-go/apns/certificate"
-	"github.com/khadiajakarkhanawala/push-notification-go/apns/payload"
-	"github.com/khadiajakarkhanawala/push-notification-go/apns/token"
+	"github.com/khadijakarkhanawala/push-notification-go/apns/certificate"
+	"github.com/khadijakarkhanawala/push-notification-go/apns/payload"
+	"github.com/khadijakarkhanawala/push-notification-go/apns/token"
 )
 
 type (
