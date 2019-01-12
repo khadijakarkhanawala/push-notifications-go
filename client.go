@@ -1,4 +1,4 @@
-package pushnotifications
+package notification
 
 import (
 	"crypto/tls"
@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"log"
 
-	"push-notification-go/fcm"
+	"github.com/khadiajakarkhanawala/push-notification-go/fcm"
+	"github.com/sideshow/apns2"
 
-	"push-notification-go/apns/apns2"
-	"push-notification-go/apns/apns2/certificate"
-	"push-notification-go/apns/apns2/payload"
-	"push-notification-go/apns/apns2/token"
+	"github.com/khadiajakarkhanawala/push-notification-go/apns/certificate"
+	"github.com/khadiajakarkhanawala/push-notification-go/apns/payload"
+	"github.com/khadiajakarkhanawala/push-notification-go/apns/token"
 )
 
 type (
