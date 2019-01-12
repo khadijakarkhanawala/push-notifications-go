@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"push-notification-go/apns"
 
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/certificate"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/payload"
@@ -29,7 +30,7 @@ type (
 //certificatePath - Path to pem file
 //data - Custom request parameters struct
 //sandboxMode - whether to send push in sandbox mode or not. Default is true
-func SendIOSPushFromPem(certificatePath string, data RequestPayload, sandboxMode bool) *apns2.Response {
+func SendIOSPushFromPem(certificatePath string, data RequestPayload, sandboxMode bool) *apns.Response {
 	cert, err := certificate.FromPemFile(certificatePath, "")
 	if err != nil {
 		log.Fatal("Cert Error:", err)
@@ -44,7 +45,7 @@ func SendIOSPushFromPem(certificatePath string, data RequestPayload, sandboxMode
 //certificatePath - Path to p12 file
 //data - Custom request parameters struct
 //sandboxMode - whether to send push in sandbox mode or not. Default is true
-func SendIOSPushFromP12(certificatePath string, data RequestPayload, sandboxMode bool) *apns2.Response {
+func SendIOSPushFromP12(certificatePath string, data RequestPayload, sandboxMode bool) *apns.Response {
 	cert, err := certificate.FromP12File(certificatePath, "")
 	if err != nil {
 		log.Fatal("Cert Error:", err)
@@ -60,7 +61,7 @@ func SendIOSPushFromP12(certificatePath string, data RequestPayload, sandboxMode
 //keyID - KeyID from developer account (Certificates, Identifiers & Profiles -> Keys)
 //teamID - TeamID from developer account (View Account -> Membership)
 //data - Custom request parameters struct
-func SendIOSPushFromToken(certificatePath string, keyID string, teamID string, data RequestPayload) *apns2.Response {
+func SendIOSPushFromToken(certificatePath string, keyID string, teamID string, data RequestPayload) *apns.Response {
 	authKey, err := token.AuthKeyFromFile(certificatePath)
 	if err != nil {
 		log.Fatal("token error:", err)
@@ -82,12 +83,12 @@ func SendIOSPushFromToken(certificatePath string, keyID string, teamID string, d
 	payload.Custom("data", data.customData)
 
 	//create notification
-	notification := &apns2.Notification{}
+	notification := &apns.Notification{}
 	notification.DeviceToken = data.deviceTokens[0]
 	notification.Topic = data.topic
 	notification.Payload = payload
 
-	client := apns2.NewTokenClient(token)
+	client := apns.NewTokenClient(token)
 	res, err := client.Push(notification)
 
 	return res
@@ -129,16 +130,16 @@ func sendIOSCertPush(cert tls.Certificate, data RequestPayload, sandboxMode bool
 	payload.Custom("data", data.customData)
 
 	//create notification
-	notification := &apns2.Notification{}
+	notification := &apns.Notification{}
 	notification.DeviceToken = data.deviceTokens[0]
 	notification.Topic = data.topic
 	notification.Payload = payload
 
-	var client *apns2.Client
+	var client *apns.Client
 	if sandboxMode == true {
-		client = apns2.NewClient(cert).Development()
+		client = apns.NewClient(cert).Development()
 	} else {
-		client = apns2.NewClient(cert).Production()
+		client = apns.NewClient(cert).Production()
 	}
 
 	//send push
