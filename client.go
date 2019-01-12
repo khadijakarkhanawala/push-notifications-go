@@ -11,7 +11,6 @@ import (
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/payload"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/token"
 	"github.com/khadijakarkhanawala/push-notifications-go/fcm"
-	"github.com/sideshow/apns2"
 )
 
 type (
@@ -121,7 +120,7 @@ func SendAndroidPush(serverKey string, data RequestPayload) *fcm.FcmResponseStat
 }
 
 //sendIOSCertPush id local common function that will send push using p12 or pem certificates
-func sendIOSCertPush(cert tls.Certificate, data RequestPayload, sandboxMode bool) *apns2.Response {
+func sendIOSCertPush(cert tls.Certificate, data RequestPayload, sandboxMode bool) *apns.Response {
 	//create Payload
 	payload := payload.NewPayload()
 	payload.Alert(data.pushMessage)
