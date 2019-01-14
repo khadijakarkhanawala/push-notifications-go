@@ -4,9 +4,7 @@ A common package to send push notifications to both Android and Apple devices. S
 
 ## Import package
 
-`import(`
-` 	notification "github.com/khadijakarkhanawala/push-notifications-go"`
-`)`
+`import(notification "github.com/khadijakarkhanawala/push-notifications-go")`
 
 ## Send notification to Apple Devices
 
