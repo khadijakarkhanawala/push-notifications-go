@@ -2,6 +2,12 @@
 
 A common package to send push notifications to both Android and Apple devices. Supports pem, p12, p8 type certificates for Apple IOS apps and FCM for Android
 
+## Import package
+
+`import(`
+` 	notification "github.com/khadijakarkhanawala/push-notifications-go"`
+`)`
+
 ## Send notification to Apple Devices
 
 **1. Using .pem file**
@@ -32,7 +38,7 @@ A common package to send push notifications to both Android and Apple devices. S
 
 `//Send Push`
 
-`res := notification.SendIOSPushFROMP12("../development_apns.p12", payload, true)`
+`res := notification.SendIOSPushFromP12("../development_apns.p12", payload, true)`
 
 `fmt.Println(res)`
 
