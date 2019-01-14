@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+
 	"github.com/khadijakarkhanawala/push-notifications-go/apns"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/certificate"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/payload"
@@ -15,12 +16,12 @@ import (
 type (
 	//RequestPayload defines the custom parameters to customize the push notification
 	RequestPayload struct {
-		pushMessage  string
-		badge        int
-		sound        string
-		topic        string
-		deviceTokens []string
-		customData   struct{}
+		PushMessage  string
+		Badge        int
+		Sound        string
+		Topic        string
+		DeviceTokens []string
+		CustomData   struct{}
 	}
 )
 
@@ -75,15 +76,15 @@ func SendIOSPushFromToken(certificatePath string, keyID string, teamID string, d
 
 	//create Payload
 	payload := payload.NewPayload()
-	payload.Alert(data.pushMessage)
-	payload.Badge(data.badge)
-	payload.Sound(data.sound)
-	payload.Custom("data", data.customData)
+	payload.Alert(data.PushMessage)
+	payload.Badge(data.Badge)
+	payload.Sound(data.Sound)
+	payload.Custom("data", data.CustomData)
 
 	//create notification
 	notification := &apns.Notification{}
-	notification.DeviceToken = data.deviceTokens[0]
-	notification.Topic = data.topic
+	notification.DeviceToken = data.DeviceTokens[0]
+	notification.Topic = data.Topic
 	notification.Payload = payload
 
 	client := apns.NewTokenClient(token)
@@ -97,24 +98,26 @@ func SendIOSPushFromToken(certificatePath string, keyID string, teamID string, d
 //data - Custom request parameters struct
 func SendAndroidPush(serverKey string, data RequestPayload) *fcm.FcmResponseStatus {
 	//convert custom data hash to bytes
-	customData, err := json.Marshal(data.customData)
+	customData, err := json.Marshal(data.CustomData)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	//create notification payload
 	payload := map[string]string{
-		"msg":  data.pushMessage,
-		"data": string(customData),
+		"message": data.PushMessage,
+		"data":    string(customData),
 	}
 
 	//initialize fcm client
 	client := fcm.NewFcmClient(serverKey)
-	client.NewFcmRegIdsMsg(data.deviceTokens, payload)
+	client.NewFcmRegIdsMsg(data.DeviceTokens, payload)
 
 	//send push
 	status, err := client.Send()
-
+	if err != nil {
+		fmt.Println(err)
+	}
 	return status
 }
 
@@ -122,15 +125,15 @@ func SendAndroidPush(serverKey string, data RequestPayload) *fcm.FcmResponseStat
 func sendIOSCertPush(cert tls.Certificate, data RequestPayload, sandboxMode bool) *apns.Response {
 	//create Payload
 	payload := payload.NewPayload()
-	payload.Alert(data.pushMessage)
-	payload.Badge(data.badge)
-	payload.Sound(data.sound)
-	payload.Custom("data", data.customData)
+	payload.Alert(data.PushMessage)
+	payload.Badge(data.Badge)
+	payload.Sound(data.Sound)
+	payload.Custom("data", data.CustomData)
 
 	//create notification
 	notification := &apns.Notification{}
-	notification.DeviceToken = data.deviceTokens[0]
-	notification.Topic = data.topic
+	notification.DeviceToken = data.DeviceTokens[0]
+	notification.Topic = data.Topic
 	notification.Payload = payload
 
 	var client *apns.Client
