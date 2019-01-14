@@ -5,8 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"github.com/khadijakarkhanawala/push-notification-go/apns"
-
+	"github.com/khadijakarkhanawala/push-notifications-go/apns"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/certificate"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/payload"
 	"github.com/khadijakarkhanawala/push-notifications-go/apns/token"
